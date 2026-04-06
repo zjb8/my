@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>曾*博 · 石头 | 编程少年个人介绍</title>
+    <!-- 使用系统原生字体栈，不依赖任何外部字体库 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a0f1e 0%, #0c1222 100%);
+            /* 系统字体优先：苹方/微软雅黑/思源黑体后备，英文使用系统默认 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            color: #eef5ff;
+        }
+
+        /* 动态星空背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle 3s infinite alternate;
+            box-shadow: 0 0 4px rgba(255,255,240,0.8);
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        /* 主卡片容器 */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 主卡片：带有微光边框的磨砂玻璃效果 */
+        .profile-card {
+            background: rgba(18, 25, 45, 0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 3rem;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(80, 130, 255, 0.1) inset;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 内容区域布局：左右结构 */
+        .card-inner {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* 左侧 头像+简介区域 */
+        .hero-area {
+            flex: 1.2;
+            min-width: 260px;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(10, 20, 40, 0.5), rgba(0, 0, 0, 0.2));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid rgba(80, 130, 255, 0.25);
+        }
+
+        /* 头像动画光环 */
+        .avatar {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #2b6eff, #9b4dff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .avatar-inner {
+            width: 160px;
+            height: 160px;
+            background: #0f172ad9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            color: #ffd966;
+            text-shadow: 0 0 12px #ffb347;
+            backdrop-filter: blur(2px);
+            letter-spacing: 4px;
+        }
+
+        .name-glow {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #F0F4FF, #B3E0FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0.5rem 0 0.2rem;
+            letter-spacing: 1px;
+        }
+
+        .nickname {
+            font-size: 1.5rem;
+            background: #2a3a60b3;
+            display: inline-block;
+            padding: 0.25rem 1.2rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            font-weight: 500;
+            margin: 0.8rem 0 0.4rem;
+        }
+
+        .nickname i {
+            margin-right: 8px;
+            color: #ffb347;
+        }
+
+        .birth-badge {
+            margin-top: 0.8rem;
+            background: #1e2a46;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .birth-badge i {
+            color: #60a5fa;
+        }
+
+        /* 右侧 内容区域: 爱好编程 + 其他亮点 */
+        .info-area {
+            flex: 2;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* 编程热情板块 */
+        .passion-card {
+            background: rgba(0, 10, 30, 0.5);
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            border-left: 5px solid #3b82f6;
+            transition: 0.2s;
+        }
+
+        .passion-card h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #b9e2ff;
+        }
+
+        .passion-card h2 i {
+            color: #3b82f6;
+            font-size: 2rem;
+        }
+
+        .code-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 1rem 0 1rem;
+        }
+
+        .code-tag {
+            background: #0f1a2e;
+            padding: 0.4rem 1rem;
+            border-radius: 36px;
+            font-size: 0.9rem;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+            border: 1px solid #2d4a8a;
+            color: #bdd4ff;
+            transition: 0.2s;
+        }
+
+        .code-tag i {
+            margin-right: 6px;
+            font-size: 0.8rem;
+        }
+
+        .quote {
+            font-style: italic;
+            margin-top: 1rem;
+            border-top: 1px dashed #2d3e6e;
+            padding-top: 1rem;
+            color: #bfd9ff;
+        }
+
+        /* 关于石头的小百科 */
+        .about-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .about-card {
+            background: rgba(25, 35, 55, 0.7);
+            border-radius: 1.5rem;
+            padding: 1rem 1.4rem;
+            flex: 1;
+            min-width: 150px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(80, 130, 255, 0.2);
+            transition: all 0.2s;
+        }
+
+        .about-card:hover {
+            background: rgba(40, 55, 85, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .about-card i {
+            font-size: 2rem;
+            color: #60a5fa;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .about-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .about-card p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #cdddf7;
+        }
+
+        /* 趣味进度条或者编程宣言 */
+        .coding-mantra {
+            background: linear-gradient(90deg, #111b2e, #101624);
+            border-radius: 2rem;
+            padding: 1rem 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .mantra-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .mantra-text i {
+            margin-right: 8px;
+            color: #facc15;
+        }
+
+        .badge-small {
+            background: #2b3b62;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        /* 页脚 */
+        .footer-note {
+            text-align: center;
+            padding: 1rem 1.5rem 1.2rem;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(100, 150, 255, 0.2);
+            color: #8ca3cf;
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        /* 响应式 */
+        @media (max-width: 780px) {
+            .card-inner {
+                flex-direction: column;
+            }
+            .hero-area {
+                border-right: none;
+                border-bottom: 1px solid rgba(80, 130, 255, 0.25);
+                padding: 1.8rem;
+            }
+            .info-area {
+                padding: 1.8rem;
+            }
+            .name-glow {
+                font-size: 2rem;
+            }
+            .avatar {
+                width: 140px;
+                height: 140px;
+            }
+            .avatar-inner {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+        }
+
+        /* 自定义光标，加一点趣味 */
+        .code-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background: #3b82f6;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        button, a {
+            cursor: pointer;
+        }
+
+        /* 调整部分小元素 */
+        .fa, .fas, .far, .fab {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands";
+            font-weight: 900;
+        }
+    </style>
+    <!-- Font Awesome 6 (免费图标库，不涉及谷歌字体，仅为图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="stars" id="starfield"></div>
+
+<div class="card-container">
+    <div class="profile-card">
+        <div class="card-inner">
+            <!-- 左侧：头像 + 姓名 + 小名+生日 -->
+            <div class="hero-area">
+                <div class="avatar">
+                    <div class="avatar-inner">
+                        🧑‍💻
+                    </div>
+                </div>
+                <div class="name-glow">曾*博</div>
+                <div class="nickname">
+                    <i class="fas fa-gem"></i> 小名 · 石头
+                </div>
+                <div class="birth-badge">
+                    <i class="fas fa-calendar-alt"></i> 2017年8月3日
+                </div>
+                <!-- 装饰 星座 / 属相 趣味 -->
+                <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
+                    <i class="fas fa-star"></i> 狮子座 · 编程冒险家
+                </div>
+            </div>
+
+            <!-- 右侧：重点爱好编程 + 其他亮点 -->
+            <div class="info-area">
+                <!-- 编程主区域 -->
+                <div class="passion-card">
+                    <h2>
+                        <i class="fas fa-laptop-code"></i> 
+                        爱好 · 编程
+                        <span class="code-cursor"></span>
+                    </h2>
+                    <p style="font-size: 1.05rem; line-height: 1.5; margin-bottom: 0.5rem;">
+                        石头同学从代码世界里发现无限乐趣，喜欢用逻辑搭建奇妙应用。 
+                        每一次运行成功都像解锁新关卡 🎮
+                    </p>
+                    <div class="code-tags">
+                        <span class="code-tag"><i class="fab fa-python"></i> Python</span>
+                        <span class="code-tag"><i class="fab fa-js"></i> JavaScript</span>
+                        <span class="code-tag"><i class="fab fa-html5"></i> HTML/CSS</span>
+                        <span class="code-tag"><i class="fas fa-gamepad"></i> Scratch</span>
+                        <span class="code-tag"><i class="fas fa-microchip"></i> 算法思维</span>
+                    </div>
+                    <div class="quote">
+                        <i class="fas fa-quote-left" style="margin-right: 8px; opacity: 0.7;"></i> 
+                        代码是写给未来的诗，而石头正在用键盘写第一行。
+                    </div>
+                </div>
+
+                <!-- 小百科网格：更多关于石头的特质 -->
+                <div class="about-grid">
+                    <div class="about-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>逻辑小天才</h3>
+                        <p>喜欢用编程解决谜题，热衷逻辑推理和数独游戏</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fas fa-rocket"></i>
+                        <h3>创造者精神</h3>
+                        <p>独立制作小游戏和互动网页，分享给小伙伴</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>温暖石头</h3>
+                        <p>乐于助人，耐心讲解代码，班级里的“小讲师”</p>
+                    </div>
+                </div>
+
+                <!-- 动态编程宣言 / 趣味事实 -->
+                <div class="coding-mantra">
+                    <div class="mantra-text">
+                        <i class="fas fa-terminal"></i>  echo "Hello, World! 我是石头，我爱编程"
+                    </div>
+                    <div class="badge-small">
+                        <i class="fas fa-code-branch"></i> 每日一码 · 茁壮成长
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span><i class="far fa-smile"></i> 生于2017 · 小小创客</span>
+            <span><i class="fas fa-cubes"></i> 用代码搭建梦想城堡</span>
+            <span><i class="fas fa-seedling"></i> 保持好奇 · 持续探索</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 生成动态星空背景，增加趣味性和个性化
+    (function createStars() {
+        const starsContainer = document.getElementById('starfield');
+        if (!starsContainer) return;
+        const starCount = 180;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 3 + 1.2;  // 1.2px 到 4.2px
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            const duration = Math.random() * 2 + 1.5;
+            const delay = Math.random() * 5;
+            star.style.animationDuration = duration + 's';
+            star.style.animationDelay = delay + 's';
+            star.style.opacity = Math.random() * 0.6 + 0.2;
+            starsContainer.appendChild(star);
+        }
+
+        for (let i = 0; i < 30; i++) {
+            const bigStar = document.createElement('div');
+            bigStar.classList.add('star');
+            bigStar.style.width = (Math.random() * 5 + 2) + 'px';
+            bigStar.style.height = bigStar.style.width;
+            bigStar.style.left = Math.random() * 100 + '%';
+            bigStar.style.top = Math.random() * 100 + '%';
+            bigStar.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            bigStar.style.animationDelay = (Math.random() * 6) + 's';
+            bigStar.style.backgroundColor = '#ffe2b5';
+            bigStar.style.boxShadow = '0 0 6px #ffdd99';
+            starsContainer.appendChild(bigStar);
+        }
+    })();
+
+    // 控制台趣味信息
+    console.log("%c✨ 欢迎来到石头的编程世界 ✨", "color: #3b82f6; font-size: 16px; font-weight: bold;");
+    console.log("%c曾*博 · 小名石头 | 生于2017.08.03 | 编程爱好者", "color: #facc15; font-size: 14px;");
+
+    // 头像悬浮效果
+    const avatarDiv = document.querySelector('.avatar');
+    if (avatarDiv) {
+        avatarDiv.addEventListener('mouseenter', () => {
+            avatarDiv.style.transform = 'scale(1.02)';
+            avatarDiv.style.transition = '0.2s';
+        });
+        avatarDiv.addEventListener('mouseleave', () => {
+            avatarDiv.style.transform = 'scale(1)';
+        });
+    }
+
+    // about-card 点击反馈
+    const aboutCards = document.querySelectorAll('.about-card');
+    aboutCards.forEach(card => {
+        card.addEventListener('click', () => {
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                card.style.transform = '';
+            }, 150);
+            const title = card.querySelector('h3')?.innerText || '';
+            if (title) console.log(`🌟 石头的小特质: ${title} 🌟`);
+        });
+    });
+
+    // 动态显示年龄 (趣味)
+    const birthBadge = document.querySelector('.birth-badge');
+    if (birthBadge) {
+        const birthDate = new Date(2017, 7, 3);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        const ageSpan = document.createElement('span');
+        ageSpan.style.marginLeft = '8px';
+        ageSpan.style.fontSize = '0.85rem';
+        ageSpan.style.backgroundColor = '#facc1522';
+        ageSpan.style.padding = '2px 8px';
+        ageSpan.style.borderRadius = '30px';
+        ageSpan.innerHTML = `<i class="fas fa-child"></i> ${age}岁 · 编程新星`;
+        birthBadge.appendChild(ageSpan);
+    }
+
+    // 点击编程宣言区域复制趣味文案
+    const mantraDiv = document.querySelector('.coding-mantra');
+    if (mantraDiv) {
+        mantraDiv.addEventListener('click', () => {
+            navigator.clipboard.writeText("曾*博 · 石头 热爱编程 | 用代码创造世界").then(() => {
+                const toast = document.createElement('div');
+                toast.innerText = '✨ 石头的编程信念已复制 ✨';
+                toast.style.position = 'fixed';
+                toast.style.bottom = '20px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.backgroundColor = '#1e2a46e6';
+                toast.style.backdropFilter = 'blur(8px)';
+                toast.style.color = '#fff';
+                toast.style.padding = '8px 20px';
+                toast.style.borderRadius = '40px';
+                toast.style.fontSize = '0.85rem';
+                toast.style.zIndex = '999';
+                toast.style.border = '1px solid #3b82f6';
+                toast.style.fontFamily = 'monospace';
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 500);
+                }, 1500);
+            }).catch(() => {});
+        });
+        mantraDiv.style.cursor = 'pointer';
+        mantraDiv.title = '点击复制石头の编程态度';
+    }
+    
+    // 彩蛋: 按 'c' 或 'C' 展示编程小彩蛋
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'c' || e.key === 'C') {
+            const eggMsg = document.createElement('div');
+            eggMsg.innerText = '🐍 Python is awesome! 石头 said 🚀';
+            eggMsg.style.position = 'fixed';
+            eggMsg.style.bottom = '70px';
+            eggMsg.style.right = '20px';
+            eggMsg.style.backgroundColor = '#000000aa';
+            eggMsg.style.color = '#facc15';
+            eggMsg.style.padding = '6px 14px';
+            eggMsg.style.borderRadius = '28px';
+            eggMsg.style.fontSize = '0.8rem';
+            eggMsg.style.backdropFilter = 'blur(10px)';
+            eggMsg.style.zIndex = '1000';
+            eggMsg.style.fontFamily = 'monospace';
+            eggMsg.style.border = '1px solid gold';
+            document.body.appendChild(eggMsg);
+            setTimeout(() => {
+                eggMsg.style.opacity = '0';
+                setTimeout(() => eggMsg.remove(), 800);
+            }, 1800);
+        }
+    });
+    
+    // 头像内表情变化小互动
+    const avatarInner = document.querySelector('.avatar-inner');
+    if (avatarInner) {
+        avatarInner.addEventListener('mouseenter', () => {
+            avatarInner.style.transform = 'scale(1.02)';
+            avatarInner.style.transition = '0.2s';
+            avatarInner.innerText = '🤖';
+            setTimeout(() => {
+                if (avatarInner.innerText === '🤖') avatarInner.innerText = '🧑‍💻';
+            }, 800);
+        });
+        avatarInner.addEventListener('mouseleave', () => {
+            avatarInner.style.transform = '';
+            avatarInner.innerText = '🧑‍💻';
+        });
+    }
+    
+    // 控制台打印今日祝福
+    const todayStr = new Date().toLocaleDateString('zh-CN', { month:'long', day:'numeric' });
+    console.log(`%c📅 今天是${todayStr}，石头正在创造新代码！`, "background: #0f172a; color: #a5f3c3; padding: 4px 8px; border-radius: 12px;");
+    setTimeout(() => {
+        console.log("%c💎 曾*博 (石头) · 个人主页已加载完毕 欢迎了解这位编程少年 💎", "color: #ffd966; font-size: 13px;");
+    }, 500);
+</script>
+</body>
+</html>
